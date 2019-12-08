@@ -48,9 +48,9 @@ bool operator<(const Osobnik& osobnik1, const Osobnik& osobnik2){
     return osobnik1.zwrocGenotyp().at(0) < osobnik2.zwrocGenotyp().at(0);
 }
 
-wynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const Fenotyp& fenotyp){
+WynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const Fenotyp& fenotyp){
     if(fenotyp.size() <= 1) return 0;
-    wynikFunkcjiOceny wynik = 0;
+    WynikFunkcjiOceny wynik = 0;
     for(int i = 0; i < fenotyp.size() - 1; ++i){ //-1, gdyż dla ostatniego miasta nie możemy sięgnąć po miasto i+1'sze
         wynik+=tablicaOdleglosci.odleglosci.at(fenotyp.at(i)).at(fenotyp.at(i + 1));
     }
@@ -60,30 +60,51 @@ wynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const
 
 Populacja::Populacja(size_t size, size_t iloscChromosomow): _populacja() {
     for(int i = 0; i < size; ++i){
-        _populacja.emplace_back(std::pair<wynikFunkcjiOceny, Osobnik>(0, Osobnik(iloscChromosomow))); //generowanie losowych osobników
+        _populacja.emplace_back(std::pair<WynikFunkcjiOceny, Osobnik>(0, Osobnik(iloscChromosomow))); //generowanie losowych osobników
     }
 }
 
-Osobnik Populacja::osobnik(size_t number) const {
-    if(number >= _populacja.size()) throw "Populacja::getSpecimen - wrong number";
-    return _populacja[number].second;
+Osobnik Populacja::osobnik(size_t numer) const {
+    if(numer >= _populacja.size()) throw "Populacja::osobnik - zly numer";
+    return _populacja[numer].second;
 }
 
-Osobnik& Populacja::osobnik(size_t number) {
-    if(number >= _populacja.size()) throw "Populacja::getSpecimen - wrong number";
-    return _populacja[number].second;
+Osobnik& Populacja::osobnik(size_t numer) {
+    if(numer >= _populacja.size()) throw "Populacja::osobnik - zly numer";
+    return _populacja[numer].second;
+}
+
+WynikFunkcjiOceny Populacja::ocenaOsobnika(size_t numer) const{
+    if(numer >= _populacja.size()) throw "Populacja::ocenaOsobnika - zly numer";
+    return _populacja.at(numer).first;
 }
 
 size_t Populacja::wielkosc() const {
     return _populacja.size();
 }
 
-void Populacja::ocenOsobnika(size_t numer, wynikFunkcjiOceny ocena) {
+void Populacja::ocenOsobnika(size_t numer, WynikFunkcjiOceny ocena) {
     _populacja.at(numer).first = ocena;
 }
 
 void Populacja::sortuj() {
     std::sort(_populacja.begin(), _populacja.end());
+}
+
+void Populacja::dodajOsobnika(const Osobnik &osobnik, WynikFunkcjiOceny ocena) {
+    _populacja.emplace_back(std::pair<WynikFunkcjiOceny, Osobnik>(ocena, osobnik));
+}
+
+void Populacja::doklejInnaPopulacje(const Populacja &innaPopulacja) {
+    for(const auto& i: innaPopulacja._populacja) {
+        _populacja.emplace_back(i);
+    }
+}
+
+void Populacja::przytnijPopulacjeDoRozmiaru(size_t rozmiar) {
+    while(_populacja.size() > rozmiar) {
+        _populacja.pop_back();
+    }
 }
 
 

@@ -12,7 +12,7 @@
  * Aliasy zostały użyte w celu zwiększenia czytelności kodu.
  */
 
-using wynikFunkcjiOceny = unsigned;
+using WynikFunkcjiOceny = unsigned;
 using Chromosom = unsigned;
 using Genotyp = std::vector<Chromosom>; //jego wielkosc jest o 1 mniejszy od liczby miast, gdyż miasto zerowe nie wymaga opisu
 using Fenotyp = std::vector<unsigned>; //numery kolejnych odwiedzanych miast
@@ -26,6 +26,7 @@ struct UstawieniaAlgoytmu {
     size_t iloscChromosomow;
     size_t wielkoscPopulacji;
     bool sortujPrzedKrzyzowaniem;
+    size_t wielkoscPopulacjiDzieci;
     UstawieniaAlgoytmu() = default;
 };
 

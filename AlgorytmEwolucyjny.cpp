@@ -35,8 +35,30 @@ void Reproduktor::reprodukuj(Populacja &populacja) {
     krzyzujParami();
 }
 
-void Reproduktor::wybierzOsobnikiDoReprodukcji(Populacja &populacja) {
+Populacja Reproduktor::zwrocPotomkow() const{
+    return _nowaPopulacja;
+}
 
+void Reproduktor::wybierzOsobnikiDoReprodukcji(Populacja &populacja) {
+    std::vector<double> wagiOsobnikowDoMetodyRuletkowej(populacja.wielkosc());
+    double sumaWagMetodyRuletkowej = 0;
+    for(int i = 0; i < populacja.wielkosc(); ++i) {
+        if(populacja.ocenaOsobnika(i) == 0) throw "Reproduktor::wybierzOsobnikiDoReprodukcji - ocena = 0";
+        wagiOsobnikowDoMetodyRuletkowej.at(i) = 1.0 / populacja.ocenaOsobnika(i);
+        sumaWagMetodyRuletkowej += wagiOsobnikowDoMetodyRuletkowej.at(i);
+    }
+    std::uniform_real_distribution<double> distribution(0, sumaWagMetodyRuletkowej); //określanie zakresu generowanych liczb losowych
+    for(int i = 0; i < _ustawieniaAlgorytmu.wielkoscPopulacjiDzieci; ++i) { //generowanie określonej liczby dzieci
+        double wylosowanaLiczba = distribution(_generator);
+        for(int j = 0; j < populacja.wielkosc(); ++j) { //sprawdzanie do której "przegródki" wpadła wylosowana liczba
+            if(wylosowanaLiczba <= wagiOsobnikowDoMetodyRuletkowej.at(j)){
+                _nowaPopulacja.dodajOsobnika(populacja.osobnik(j));
+                break;
+            }
+            wylosowanaLiczba -= wagiOsobnikowDoMetodyRuletkowej.at(j);
+        }
+    }
+    if(_nowaPopulacja.wielkosc() != _ustawieniaAlgorytmu.wielkoscPopulacjiDzieci) throw "Reproduktor::wybierzOsobnikiDoReprodukcji - zła liczba populacji dzieci";
 }
 
 void Reproduktor::krzyzujParami() {
@@ -55,6 +77,3 @@ void Reproduktor::krzyzuj(Osobnik& osobnik1, Osobnik& osobnik2) {
     std::swap_ranges(genotypOsobnika1.begin() + miejsceCiecia, genotypOsobnika1.end(), genotypOsobnika2.begin() + miejsceCiecia);
 }
 
-void Reproduktor::scalPotomkowZRodzicami() {
-
-}

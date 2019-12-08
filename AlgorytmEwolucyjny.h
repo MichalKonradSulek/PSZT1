@@ -33,20 +33,20 @@ private:
 
 /** \class Reproduktor
  * Klasa odpowiedzialna za przeprowadzenie reprodukcji osobników populacji zgodnie z wprowadzonymi ustawieniami algorytmu.
- * Z tej klasy wywołać można tylko funkcję "reprodukuj".
+ * Do krzyżowania wybrana jest metoda ruletki.
  */
 class Reproduktor {
 public:
     Reproduktor(const UstawieniaAlgoytmu& ustawieniaAlgoytmu, std::default_random_engine& generator);
     void reprodukuj(Populacja& populacja);
+    Populacja zwrocPotomkow() const;
 //private:
     std::default_random_engine& _generator;
     UstawieniaAlgoytmu _ustawieniaAlgorytmu;
     Populacja _nowaPopulacja;
-    void wybierzOsobnikiDoReprodukcji(Populacja& populacja);
+    void wybierzOsobnikiDoReprodukcji(Populacja& populacja); ///<wybieranie osobników do populacji, korzystając z metody ruletkowej
     void krzyzujParami(); ///<jeśli nieparzysta liczba osobników, ostatni nie podlega krzyzowaniu
-    void krzyzuj(Osobnik& osobnik1, Osobnik& osobnik2);
-    void scalPotomkowZRodzicami();
+    void krzyzuj(Osobnik& osobnik1, Osobnik& osobnik2); ///<krzyżowanie osobników przy pomocy jednokrotnego cięcia genotypu
 };
 
 /** \class Mutator

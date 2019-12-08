@@ -29,22 +29,26 @@ private:
 };
 
 bool operator<(const Osobnik& osobnik1, const Osobnik& osobnik2); ///<Operator stworzony, aby zaspokoić funkcję, która sortuje pary w populacji
-wynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const Fenotyp& fenotyp); ///<Funkcja przystosowania. Oceną jest suma odległości między miastami. Im mniej, tym lepiej.
+WynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const Fenotyp& fenotyp); ///<Funkcja przystosowania. Oceną jest suma odległości między miastami. Im mniej, tym lepiej.
 
 /** \class Populacja
  * Klasa przechowująca populację osobników.
  */
 class Populacja {
 public:
-    explicit Populacja() = default;
-    Populacja(size_t size, size_t iloscChromosomow);
-    Osobnik osobnik(size_t number) const;
-    Osobnik& osobnik(size_t number);
+    explicit Populacja() = default; ///<generacja pustej populacji
+    Populacja(size_t size, size_t iloscChromosomow); ///<generacja populacji losowych osobników
+    Osobnik osobnik(size_t numer) const;
+    Osobnik& osobnik(size_t numer);
+    WynikFunkcjiOceny ocenaOsobnika(size_t numer) const;
     size_t wielkosc() const;
-    void ocenOsobnika(size_t numer, wynikFunkcjiOceny ocena);
+    void ocenOsobnika(size_t numer, WynikFunkcjiOceny ocena);
     void sortuj(); ///< funkcja sortująca populację rosnąco względem wyniku funkcji oceny
+    void dodajOsobnika(const Osobnik& osobnik, WynikFunkcjiOceny ocena = 0); ///<dodaje osobnika na końcu populacji
+    void doklejInnaPopulacje(const Populacja& innaPopulacja); ///<dokleja inną populację na końcu obecnej
+    void przytnijPopulacjeDoRozmiaru(size_t rozmiar); ///<usuwa z końca populacji tak długo, aż populacja będzie miała żądany rozmiar
 private:
-    std::vector<std::pair<wynikFunkcjiOceny, Osobnik>> _populacja;
+    std::vector<std::pair<WynikFunkcjiOceny, Osobnik>> _populacja;
 };
 
 

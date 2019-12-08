@@ -21,3 +21,10 @@ void wypiszWektorU(const std::vector<unsigned>& wektor) {
     }
     std::cout << std::endl;
 }
+
+void wypiszPopulacje(const Populacja& populacja) {
+    for(int i = 0; i < populacja.wielkosc(); ++i) {
+        std::cout << i << " ocena:" << populacja.ocenaOsobnika(i) << " genotyp: ";
+        wypiszWektorU(populacja.osobnik(i).zwrocGenotyp());
+    }
+}
