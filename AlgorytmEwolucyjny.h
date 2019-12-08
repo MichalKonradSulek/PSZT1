@@ -21,12 +21,13 @@
  */
 class AlgorytmEwolucyjny {
 public:
-    AlgorytmEwolucyjny(TablicaOdleglosci tablicaOdleglosci, UstawieniaAlgoytmu ustawieniaAlgoytmu);
+    AlgorytmEwolucyjny(TablicaOdleglosci tablicaOdleglosci, UstawieniaAlgorytmu ustawieniaAlgoytmu);
     void iteracja(); ///<Pojedyncza iteracja (wymiana jednego pokolenia)
+    Populacja zwrocBierzacaPopulacje() const;
     void zwrocNajlepszegoOsobnika(Fenotyp) const;
 private:
     std::default_random_engine _generator; ///<Generator liczb losowych
-    UstawieniaAlgoytmu _ustawieniaAlgorytmu;
+    UstawieniaAlgorytmu _ustawieniaAlgorytmu;
     TablicaOdleglosci _tablicaOdleglosci;
     Populacja _bierzacaPopulacja;
 };
@@ -37,14 +38,14 @@ private:
  */
 class Reproduktor {
 public:
-    Reproduktor(const UstawieniaAlgoytmu& ustawieniaAlgoytmu, std::default_random_engine& generator);
-    void reprodukuj(Populacja& populacja);
+    Reproduktor(const UstawieniaAlgorytmu& ustawieniaAlgoytmu, std::default_random_engine& generator);
+    void reprodukuj(const Populacja& populacja);
     Populacja zwrocPotomkow() const;
-//private:
+private:
     std::default_random_engine& _generator;
-    UstawieniaAlgoytmu _ustawieniaAlgorytmu;
+    UstawieniaAlgorytmu _ustawieniaAlgorytmu;
     Populacja _nowaPopulacja;
-    void wybierzOsobnikiDoReprodukcji(Populacja& populacja); ///<wybieranie osobników do populacji, korzystając z metody ruletkowej
+    void wybierzOsobnikiDoReprodukcji(const Populacja& populacja); ///<wybieranie osobników do populacji, korzystając z metody ruletkowej
     void krzyzujParami(); ///<jeśli nieparzysta liczba osobników, ostatni nie podlega krzyzowaniu
     void krzyzuj(Osobnik& osobnik1, Osobnik& osobnik2); ///<krzyżowanie osobników przy pomocy jednokrotnego cięcia genotypu
 };
@@ -55,7 +56,7 @@ public:
  */
 class Mutator {
 public:
-    void mutuj(Populacja& populacja, const UstawieniaAlgoytmu& ustawieniaAlgoytmu);
+    void mutuj(Populacja& populacja, const UstawieniaAlgorytmu& ustawieniaAlgoytmu);
 };
 
 

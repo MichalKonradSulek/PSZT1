@@ -21,8 +21,6 @@ public:
     void wczytajDane(const std::string& plik, int iloscRekordow); ///< funkcja wczytująca odległości z pliku do tablicy  odległości
     void przeprowadzObliczenia();
 private:
-    const size_t WIELKOSC_POPULACJI = 10;
-    std::unique_ptr<AlgorytmEwolucyjny> _algorytmEwolucyjny;
     TablicaOdleglosci _tablicaOdleglosci;
 };
 

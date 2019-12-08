@@ -8,7 +8,7 @@
 #include "AlgorytmEwolucyjny.h"
 
 AlgorytmEwolucyjny::AlgorytmEwolucyjny(TablicaOdleglosci tablicaOdleglosci,
-                                       UstawieniaAlgoytmu ustawieniaAlgoytmu):
+                                       UstawieniaAlgorytmu ustawieniaAlgoytmu):
                                        _generator(std::chrono::system_clock::now().time_since_epoch().count()), //inicjalizacja generatora liczb losowych
                                        _ustawieniaAlgorytmu(ustawieniaAlgoytmu),
                                        _tablicaOdleglosci(std::move(tablicaOdleglosci)),
@@ -20,16 +20,27 @@ AlgorytmEwolucyjny::AlgorytmEwolucyjny(TablicaOdleglosci tablicaOdleglosci,
 }
 
 void AlgorytmEwolucyjny::iteracja() {
-//    Reproduktor reproduktor(_bierzacaPopulacja, _ustawieniaAlgorytmu);
+    Reproduktor reproduktor(_ustawieniaAlgorytmu, _generator);
+    reproduktor.reprodukuj(_bierzacaPopulacja);
+    Populacja potomkowie = reproduktor.zwrocPotomkow();
 //    Mutator mutator(_bierzacaPopulacja, _ustawieniaAlgorytmu);
+    for(int i = 0; i < potomkowie.wielkosc(); ++i) { //ocena wszystkich osobników nowej populacji
+        potomkowie.ocenOsobnika(i, ocenOsobnika(_tablicaOdleglosci, potomkowie.osobnik(i).zwrocFenotyp()));
+    }
+    potomkowie.sortuj();
+    _bierzacaPopulacja = potomkowie; //to przypisanie jest rozsądne tylko, gdy populacja potomków ma taką samą liczebność
 }
 
-Reproduktor::Reproduktor(const UstawieniaAlgoytmu& ustawieniaAlgoytmu, std::default_random_engine& generator):
+Populacja AlgorytmEwolucyjny::zwrocBierzacaPopulacje() const {
+    return _bierzacaPopulacja;
+}
+
+Reproduktor::Reproduktor(const UstawieniaAlgorytmu& ustawieniaAlgoytmu, std::default_random_engine& generator):
     _generator(generator),
     _ustawieniaAlgorytmu(ustawieniaAlgoytmu)
     {}
 
-void Reproduktor::reprodukuj(Populacja &populacja) {
+void Reproduktor::reprodukuj(const Populacja &populacja) {
     wybierzOsobnikiDoReprodukcji(populacja);
     if(_ustawieniaAlgorytmu.sortujPrzedKrzyzowaniem) _nowaPopulacja.sortuj();
     krzyzujParami();
@@ -39,7 +50,7 @@ Populacja Reproduktor::zwrocPotomkow() const{
     return _nowaPopulacja;
 }
 
-void Reproduktor::wybierzOsobnikiDoReprodukcji(Populacja &populacja) {
+void Reproduktor::wybierzOsobnikiDoReprodukcji(const Populacja &populacja) {
     std::vector<double> wagiOsobnikowDoMetodyRuletkowej(populacja.wielkosc());
     double sumaWagMetodyRuletkowej = 0;
     for(int i = 0; i < populacja.wielkosc(); ++i) {
@@ -71,7 +82,6 @@ void Reproduktor::krzyzuj(Osobnik& osobnik1, Osobnik& osobnik2) {
     if(_ustawieniaAlgorytmu.iloscChromosomow < 2) return;
     std::uniform_int_distribution<size_t> distribution(1, _ustawieniaAlgorytmu.iloscChromosomow - 1); //określanie zakresu generowanych liczb losowych (cięcie musi być między chromosomami)
     size_t miejsceCiecia = distribution(_generator);
-    std::cout << "miejsce ciecia: " << miejsceCiecia << std::endl;
     Genotyp& genotypOsobnika1 = osobnik1.genotyp();
     Genotyp& genotypOsobnika2 = osobnik2.genotyp();
     std::swap_ranges(genotypOsobnika1.begin() + miejsceCiecia, genotypOsobnika1.end(), genotypOsobnika2.begin() + miejsceCiecia);

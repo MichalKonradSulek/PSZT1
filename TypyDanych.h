@@ -22,12 +22,12 @@ using NumerMiasta = unsigned;
  * Struktura przechowująca wszystkie ustawienia algorytmu.
  * Została stworzona, aby w prosty sposób przekazywać do funkcji potomnych ustawienia symulacji.
  */
-struct UstawieniaAlgoytmu {
+struct UstawieniaAlgorytmu {
     size_t iloscChromosomow;
     size_t wielkoscPopulacji;
     bool sortujPrzedKrzyzowaniem;
     size_t wielkoscPopulacjiDzieci;
-    UstawieniaAlgoytmu() = default;
+    UstawieniaAlgorytmu() = default;
 };
 
 #endif //PSZT1_TYPYDANYCH_H

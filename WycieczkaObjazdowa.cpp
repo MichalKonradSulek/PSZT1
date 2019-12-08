@@ -17,17 +17,32 @@ void WycieczkaObjazdowa::wczytajDane(const std::string &plik, int iloscRekordow)
         std::cerr << "Tablica odleglosci pusta" << std::endl;
         return;
     }
-    UstawieniaAlgoytmu ustawieniaAlgoytmu{_tablicaOdleglosci.wielkosc() - 1, WIELKOSC_POPULACJI};
-    _algorytmEwolucyjny = std::make_unique<AlgorytmEwolucyjny>(_tablicaOdleglosci, ustawieniaAlgoytmu);
 }
 
 void WycieczkaObjazdowa::przeprowadzObliczenia() {
-    wypiszTablice(_tablicaOdleglosci);
-    /*Populacja populacja(10, 4);
+    if(_tablicaOdleglosci.wielkosc() == 0) return;
+
+    UstawieniaAlgorytmu ustawieniaAlgorytmu;
+    ustawieniaAlgorytmu.iloscChromosomow = _tablicaOdleglosci.wielkosc() - 1;
+    ustawieniaAlgorytmu.wielkoscPopulacji = 10;
+    ustawieniaAlgorytmu.sortujPrzedKrzyzowaniem = false;
+    ustawieniaAlgorytmu.wielkoscPopulacjiDzieci = ustawieniaAlgorytmu.wielkoscPopulacji;
+    AlgorytmEwolucyjny algorytm(_tablicaOdleglosci, ustawieniaAlgorytmu);
+
+    std::cout << "Populacja poczatkowa:" << std::endl;
+    wypiszPopulacje(algorytm.zwrocBierzacaPopulacje());
+    for(int i = 0; i < 10; ++i) {
+        algorytm.iteracja();
+        std::cout << "Bierzaca populacja:" << std::endl;
+        wypiszPopulacje(algorytm.zwrocBierzacaPopulacje());
+    }
+
+    /*wypiszTablice(_tablicaOdleglosci);
+    *//*Populacja populacja(10, 4);
     for(int i = 0; i < populacja.wielkosc(); ++i) {
         std::cout << "Osobnik " << i << ": " << ocenOsobnika(_tablicaOdleglosci, populacja.osobnik(i).zwrocFenotyp()) << std::endl;;
         wypiszWektorU(populacja.osobnik(i).zwrocFenotyp());
-    }*/
+    }*//*
     Osobnik osobnik0(Genotyp{0,2,3,4,5,6,7,8,9});
     Osobnik osobnik1(Genotyp{1,12,13,14,15,16,17,18,19});
     Osobnik osobnik2(Genotyp{2,22,23,24,25,26,27,28,29});
@@ -40,12 +55,12 @@ void WycieczkaObjazdowa::przeprowadzObliczenia() {
     populacja.dodajOsobnika(osobnik3, 2);
     populacja.dodajOsobnika(osobnik4, 10);
     std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count()); //inicjalizacja generatora liczb losowych
-    UstawieniaAlgoytmu ustawieniaAlgoytmu{9, 5, false, 26};
+    UstawieniaAlgorytmu ustawieniaAlgoytmu{9, 5, false, 26};
     wypiszPopulacje(populacja);
     std::cout << std::endl;
     Reproduktor reproduktor(ustawieniaAlgoytmu, generator);
     reproduktor.wybierzOsobnikiDoReprodukcji(populacja);
-    wypiszPopulacje(reproduktor._nowaPopulacja);
+    wypiszPopulacje(reproduktor._nowaPopulacja);*/
 
            /* std::cout << "genotyp1: ";
     wypiszWektorU(osobnik1.zwrocGenotyp());
@@ -53,7 +68,7 @@ void WycieczkaObjazdowa::przeprowadzObliczenia() {
     wypiszWektorU(osobnik2.zwrocGenotyp());
     for(int i = 0; i < 10; ++i) {
         std::cout << "krzyzowanie" << std::endl;
-        Reproduktor(UstawieniaAlgoytmu{10, 1, false}, generator).krzyzuj(osobnik1, osobnik2);
+        Reproduktor(UstawieniaAlgorytmu{10, 1, false}, generator).krzyzuj(osobnik1, osobnik2);
         std::cout << "genotyp1: ";
         wypiszWektorU(osobnik1.zwrocGenotyp());
         std::cout << "genotyp2: ";
