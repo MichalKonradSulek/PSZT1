@@ -12,6 +12,7 @@
 
 /** \file WycieczkaObjazdowa.h
  * Klasa przeprowadzająca obliczenia, wczytująca dane z pliku i zapisująca wyniki.
+ * To właśnie ta klasa przeprowadza testy algorytmu.
  */
 
 class WycieczkaObjazdowa {

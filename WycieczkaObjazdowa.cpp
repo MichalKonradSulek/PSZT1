@@ -22,7 +22,8 @@ void WycieczkaObjazdowa::wczytajDane(const std::string &plik, int iloscRekordow)
 
 void WycieczkaObjazdowa::przeprowadzObliczenia() {
     wypiszTablice(_tablicaOdleglosci);
-    Osobnik osobnik(10);
+    Osobnik osobnik(4);
     wypiszWektorU(osobnik.zwrocGenotyp());
     wypiszWektorU(osobnik.zwrocFenotyp());
+    std::cout << ocenOsobnika(_tablicaOdleglosci, osobnik.zwrocFenotyp()) << std::endl;
 }

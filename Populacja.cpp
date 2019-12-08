@@ -4,19 +4,16 @@
 
 #include <random>
 #include <chrono>
+#include <algorithm>
 #include "Populacja.h"
+#include "ObslugaPlikow.h"
 
-/** \class Osobnik
- * Genotyp tworzony jest na podstawie kolejności występowania następnych miast.
- * Zerowe miasto nie ma swojego genu. Miasto pierwsze może mieć gen 0 lub 1. Oznaczać to będzie,
- * że występuje ono przed, albo po mieście zerowym. Drugie miasto może mieć analogicznie gen 0, 1 lub 2 itd.
- * @param size
- */
-Osobnik::Osobnik(size_t size) {
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine generator(seed);
-    for(int i = 0; i < size; ++i) {
-        std::uniform_int_distribution<Gen> distribution(0, i + 1);
+
+Osobnik::Osobnik(size_t iloscChromosomow) {
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count(); //inicjator generatora liczb losowych
+    std::default_random_engine generator(seed); //tworzenie generatora liczb losowych
+    for(int i = 0; i < iloscChromosomow; ++i) {
+        std::uniform_int_distribution<Chromosom> distribution(0, i + 1); //określanie zakresu generowanych liczb losowych
         _genotyp.push_back(distribution(generator));
     }
 }
@@ -28,12 +25,32 @@ Genotyp Osobnik::zwrocGenotyp() const {
 }
 
 Fenotyp Osobnik::zwrocFenotyp() const {
-    Fenotyp wynik;
-    if(_genotyp.empty()) return wynik;
-    wynik.push_back(0); //zerowe miasto
-    for(int i = 0; i < _genotyp.size(); ++i) {
-        wynik.insert((wynik.begin() + _genotyp.at(i)), i + 1); //i+1, gdyż gen o indexie 0 opisuje miasto 1
+    Fenotyp fenotyp;
+    stworzFenotyp(fenotyp);
+    return fenotyp;
+}
+
+void Osobnik::stworzFenotyp(Fenotyp &fenotyp) const{
+    fenotyp.clear();
+    if(_genotyp.empty()) return;
+    fenotyp.push_back(0); //zerowe miasto, które nie ma swojego chromosomu w genotypie
+    for(int i = 0; i < _genotyp.size(); ++i) { //bierzemy kolejne chromosomy i odpowiadające im miasta umieszczamy na odpowiednich miejscach w fenotypie
+        fenotyp.insert((fenotyp.begin() + _genotyp.at(i)), i + 1); //i+1, gdyż gen o indexie 0 opisuje miasto 1
     }
+}
+
+bool operator<(const Osobnik& osobnik1, const Osobnik& osobnik2){
+    if(osobnik1.zwrocGenotyp().empty() || osobnik2.zwrocGenotyp().empty()) return true; //jeśli genotypy są puste, nie ma czego porównywać
+    return osobnik1.zwrocGenotyp().at(0) < osobnik2.zwrocGenotyp().at(0);
+}
+
+WynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const Fenotyp& fenotyp){
+    if(fenotyp.size() <= 1) return 0;
+    WynikFunkcjiOceny wynik = 0;
+    for(int i = 0; i < fenotyp.size() - 1; ++i){ //-1, gdyż dla ostatniego miasta nie możemy sięgnąć po miasto i+1'sze
+        wynik+=tablicaOdleglosci.odleglosci.at(fenotyp.at(i)).at(fenotyp.at(i + 1));
+    }
+    wynik+=tablicaOdleglosci.odleglosci.at(fenotyp.back()).at(fenotyp.front()); //brakujące połączenie - ostatnie miasto z zerowym
     return wynik;
 }
 
@@ -47,3 +64,8 @@ Osobnik Populacja::osobnik(size_t number) const {
 size_t Populacja::rozmiar() const {
     return _populacja.size();
 }
+
+void Populacja::sortuj() {
+    std::sort(_populacja.begin(), _populacja.end());
+}
+

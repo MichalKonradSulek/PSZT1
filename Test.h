@@ -8,6 +8,10 @@
 #include <iostream>
 #include "ObslugaPlikow.h"
 
+/** \file Test.h
+ * Funkcje do testów.
+ */
+
 void wypiszTablice(const TablicaOdleglosci& tablicaOdleglosci);
 void wypiszWektorU(const std::vector<unsigned>& wektor);
 
