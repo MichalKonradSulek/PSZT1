@@ -9,7 +9,10 @@ AlgorytmEwolucyjny::AlgorytmEwolucyjny(TablicaOdleglosci tablicaOdleglosci,
                                        _ustawieniaAlgorytmu(ustawieniaAlgoytmu),
                                        _tablicaOdleglosci(std::move(tablicaOdleglosci)),
                                        _bierzacaPopulacja(ustawieniaAlgoytmu.wielkoscPopulacji, ustawieniaAlgoytmu.iloscChromosomow){
-
+    for(int i = 0; i < _bierzacaPopulacja.wielkosc(); ++i) { //Wstępna ocena wszystkich osobników.
+        _bierzacaPopulacja.ocenOsobnika(i, ocenOsobnika(_tablicaOdleglosci, _bierzacaPopulacja.osobnik(i).zwrocFenotyp()));
+    }
+    _bierzacaPopulacja.sortuj();
 }
 
 void AlgorytmEwolucyjny::iteracja() {

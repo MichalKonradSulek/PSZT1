@@ -6,15 +6,15 @@
 #include "ObslugaPlikow.h"
 
 TablicaOdleglosci::TablicaOdleglosci(size_t wielkosc):
-    odleglosci(wielkosc, std::vector<WynikFunkcjiOceny>(wielkosc)),
+    odleglosci(wielkosc, std::vector<wynikFunkcjiOceny>(wielkosc)),
     nazwyMiast(wielkosc) {
 
 }
 
 void TablicaOdleglosci::dodajMiasto(const std::string &nazwaMiasta) {
-    odleglosci.emplace_back(std::vector<WynikFunkcjiOceny>(odleglosci.size()));
+    odleglosci.emplace_back(std::vector<wynikFunkcjiOceny>(odleglosci.size()));
     for(auto& wiersz: odleglosci) {
-        wiersz.emplace_back(WynikFunkcjiOceny());
+        wiersz.emplace_back(wynikFunkcjiOceny());
     }
     nazwyMiast.push_back(nazwaMiasta);
 }

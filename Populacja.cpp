@@ -44,9 +44,9 @@ bool operator<(const Osobnik& osobnik1, const Osobnik& osobnik2){
     return osobnik1.zwrocGenotyp().at(0) < osobnik2.zwrocGenotyp().at(0);
 }
 
-WynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const Fenotyp& fenotyp){
+wynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const Fenotyp& fenotyp){
     if(fenotyp.size() <= 1) return 0;
-    WynikFunkcjiOceny wynik = 0;
+    wynikFunkcjiOceny wynik = 0;
     for(int i = 0; i < fenotyp.size() - 1; ++i){ //-1, gdyż dla ostatniego miasta nie możemy sięgnąć po miasto i+1'sze
         wynik+=tablicaOdleglosci.odleglosci.at(fenotyp.at(i)).at(fenotyp.at(i + 1));
     }
@@ -54,18 +54,24 @@ WynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const
     return wynik;
 }
 
-Populacja::Populacja(size_t size, size_t iloscChromosomow): _populacja(size, std::pair<WynikFunkcjiOceny, Osobnik>(0, Osobnik(iloscChromosomow))) {}
+Populacja::Populacja(size_t size, size_t iloscChromosomow): _populacja(size, std::pair<wynikFunkcjiOceny, Osobnik>(0, Osobnik(iloscChromosomow))) {}
 
 Osobnik Populacja::osobnik(size_t number) const {
     if(number >= _populacja.size()) throw "Populacja::getSpecimen - wrong number";
     return _populacja[number].second;
 }
 
-size_t Populacja::rozmiar() const {
+size_t Populacja::wielkosc() const {
     return _populacja.size();
+}
+
+void Populacja::ocenOsobnika(size_t numer, wynikFunkcjiOceny ocena) {
+    _populacja.at(numer).first = ocena;
 }
 
 void Populacja::sortuj() {
     std::sort(_populacja.begin(), _populacja.end());
 }
+
+
 

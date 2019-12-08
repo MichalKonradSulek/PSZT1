@@ -12,9 +12,9 @@
  * Aliasy zostały użyte w celu zwiększenia czytelności kodu.
  */
 
-using WynikFunkcjiOceny = unsigned;
+using wynikFunkcjiOceny = unsigned;
 using Chromosom = unsigned;
-using Genotyp = std::vector<Chromosom>; //jego rozmiar jest o 1 mniejszy od liczby miast, gdyż miasto zerowe nie wymaga opisu
+using Genotyp = std::vector<Chromosom>; //jego wielkosc jest o 1 mniejszy od liczby miast, gdyż miasto zerowe nie wymaga opisu
 using Fenotyp = std::vector<unsigned>; //numery kolejnych odwiedzanych miast
 using NumerMiasta = unsigned;
 

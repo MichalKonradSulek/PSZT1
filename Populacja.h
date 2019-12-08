@@ -28,7 +28,7 @@ private:
 };
 
 bool operator<(const Osobnik& osobnik1, const Osobnik& osobnik2); ///<Operator stworzony, aby zaspokoić funkcję, która sortuje pary w populacji
-WynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const Fenotyp& fenotyp); ///<Funkcja przystosowania. Oceną jest suma odległości między miastami. Im mniej, tym lepiej.
+wynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const Fenotyp& fenotyp); ///<Funkcja przystosowania. Oceną jest suma odległości między miastami. Im mniej, tym lepiej.
 
 /** \class Populacja
  * Klasa przechowująca populację osobników.
@@ -38,10 +38,11 @@ public:
     explicit Populacja() = default;
     Populacja(size_t size, size_t iloscChromosomow);
     Osobnik osobnik(size_t number) const;
-    size_t rozmiar() const;
+    size_t wielkosc() const;
+    void ocenOsobnika(size_t numer, wynikFunkcjiOceny ocena);
     void sortuj(); ///< funkcja sortująca populację rosnąco względem wyniku funkcji oceny
 private:
-    std::vector<std::pair<WynikFunkcjiOceny, Osobnik>> _populacja;
+    std::vector<std::pair<wynikFunkcjiOceny, Osobnik>> _populacja;
 };
 
 

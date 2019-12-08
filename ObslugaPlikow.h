@@ -19,7 +19,7 @@
  */
 struct TablicaOdleglosci {
     explicit TablicaOdleglosci(size_t wielkosc = 0);
-    std::vector<std::vector<WynikFunkcjiOceny>> odleglosci;
+    std::vector<std::vector<wynikFunkcjiOceny>> odleglosci;
     std::vector<std::string> nazwyMiast;
     void dodajMiasto(const std::string& nazwaMiasta);
     size_t wielkosc() const;
