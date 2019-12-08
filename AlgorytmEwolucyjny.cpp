@@ -23,7 +23,8 @@ void AlgorytmEwolucyjny::iteracja() {
     Reproduktor reproduktor(_ustawieniaAlgorytmu, _generator);
     reproduktor.reprodukuj(_bierzacaPopulacja);
     Populacja potomkowie = reproduktor.zwrocPotomkow();
-//    Mutator mutator(_bierzacaPopulacja, _ustawieniaAlgorytmu);
+    Mutator mutator(_ustawieniaAlgorytmu, _generator);
+    mutator.mutuj(_bierzacaPopulacja);
     for(int i = 0; i < potomkowie.wielkosc(); ++i) { //ocena wszystkich osobników nowej populacji
         potomkowie.ocenOsobnika(i, ocenOsobnika(_tablicaOdleglosci, potomkowie.osobnik(i).zwrocFenotyp()));
     }
@@ -33,6 +34,16 @@ void AlgorytmEwolucyjny::iteracja() {
 
 Populacja AlgorytmEwolucyjny::zwrocBierzacaPopulacje() const {
     return _bierzacaPopulacja;
+}
+
+Osobnik AlgorytmEwolucyjny::zwrocNajlepszegoOsobnika() const {
+    if(_bierzacaPopulacja.wielkosc() == 0) throw "AlgorytmEwolucyjny::zwrocNajlepszegoOsobnika - populacja pusta";
+    return _bierzacaPopulacja.osobnik(0);
+}
+
+WynikFunkcjiOceny AlgorytmEwolucyjny::zwrocOceneNajlepszegoOsobnika() const {
+    if(_bierzacaPopulacja.wielkosc() == 0) throw "AlgorytmEwolucyjny::zwrocOceneNajlepszegoOsobnika - populacja pusta";
+    return _bierzacaPopulacja.ocenaOsobnika(0);
 }
 
 Reproduktor::Reproduktor(const UstawieniaAlgorytmu& ustawieniaAlgoytmu, std::default_random_engine& generator):
@@ -87,3 +98,27 @@ void Reproduktor::krzyzuj(Osobnik& osobnik1, Osobnik& osobnik2) {
     std::swap_ranges(genotypOsobnika1.begin() + miejsceCiecia, genotypOsobnika1.end(), genotypOsobnika2.begin() + miejsceCiecia);
 }
 
+Mutator::Mutator(const UstawieniaAlgorytmu &ustawieniaAlgoytmu, std::default_random_engine &generator):
+    _generator(generator),
+    _ustawieniaAlgorytmu(ustawieniaAlgoytmu)
+    {}
+
+void Mutator::mutuj(Populacja &populacja) {
+    std::uniform_int_distribution<unsigned> distribution(1, 1000); //określanie zakresu generowanych liczb losowych (1000, bo promile)
+    for(int i = 0; i < populacja.wielkosc(); ++i) {
+        if(distribution(_generator) <= _ustawieniaAlgorytmu.prawdopodobienstwoMutacji)
+            mutujOsobnika(populacja.osobnik(i));
+    }
+}
+
+void Mutator::mutujOsobnika(Osobnik &osobnik) {
+    if(_ustawieniaAlgorytmu.iloscChromosomow < 1) throw "Mutator::mutujOsobnika - liczba chromosomow = 0";
+    std::uniform_int_distribution<size_t> distribution(0, _ustawieniaAlgorytmu.iloscChromosomow - 1); //określanie zakresu generowanych liczb losowych
+    size_t indeksMutowanegoChromosomu = distribution(_generator);
+    std::uniform_int_distribution<Chromosom> dopuszczalneWartosciDanegoChromosomu(0, indeksMutowanegoChromosomu); //powinno być indeksMutowanegoChromosomu + 1, ale nie chcemy wylosować jeszcze raz takiej samej wartości
+    Genotyp genotypOsobnika = osobnik.zwrocGenotyp();
+    Chromosom nowaWartosc = dopuszczalneWartosciDanegoChromosomu(_generator);
+    if(nowaWartosc >= genotypOsobnika.at(indeksMutowanegoChromosomu)) ++nowaWartosc; //zakres losowanych liczb był o 1 za mały; teraz, jeśli wylosowana liczba jest >= starej, dodajemy 1 by nie wylosować starej, ale też móc wylosować wartość maksymalną
+    genotypOsobnika.at(indeksMutowanegoChromosomu) = nowaWartosc;
+    osobnik = Osobnik(genotypOsobnika);
+}

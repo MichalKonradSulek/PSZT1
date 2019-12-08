@@ -24,7 +24,8 @@ public:
     AlgorytmEwolucyjny(TablicaOdleglosci tablicaOdleglosci, UstawieniaAlgorytmu ustawieniaAlgoytmu);
     void iteracja(); ///<Pojedyncza iteracja (wymiana jednego pokolenia)
     Populacja zwrocBierzacaPopulacje() const;
-    void zwrocNajlepszegoOsobnika(Fenotyp) const;
+    Osobnik zwrocNajlepszegoOsobnika() const;
+    WynikFunkcjiOceny zwrocOceneNajlepszegoOsobnika() const;
 private:
     std::default_random_engine _generator; ///<Generator liczb losowych
     UstawieniaAlgorytmu _ustawieniaAlgorytmu;
@@ -51,12 +52,20 @@ private:
 };
 
 /** \class Mutator
- * Klasa ospowiedzialna za przeprowadzenie mutacji zgodnie z ustawieniami algorytmu
- * Z tej klasy wywołać można tylko funkcję "mutuj".
+ * Klasa ospowiedzialna za przeprowadzenie mutacji. Osobnik mutowany jest z prawdopodobieństwem określonym
+ * w ustawieniach algorytmu. Mutacja osobnika polega na zmianie jednego z jego chromosomów. Zmiana ta wykonywana
+ * jest poprzez wylosowanie nowej wartości z puli wartości dostępnych dla tego chromosomu. Nie jest możliwe
+ * wylosowanie tej samej wartości. Zmutowany chromosom zawsze jest różny.
  */
 class Mutator {
 public:
-    void mutuj(Populacja& populacja, const UstawieniaAlgorytmu& ustawieniaAlgoytmu);
+    Mutator(const UstawieniaAlgorytmu& ustawieniaAlgoytmu, std::default_random_engine& generator);
+    void mutuj(Populacja& populacja); ///<przeprowadza mutację wszystkich osobników, każdy przechodzi mutację z określonym prawdopodobieństwem
+private:
+    std::default_random_engine& _generator;
+    UstawieniaAlgorytmu _ustawieniaAlgorytmu;
+
+    void mutujOsobnika(Osobnik& osobnik);
 };
 
 

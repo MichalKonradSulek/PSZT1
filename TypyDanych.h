@@ -27,6 +27,7 @@ struct UstawieniaAlgorytmu {
     size_t wielkoscPopulacji;
     bool sortujPrzedKrzyzowaniem;
     size_t wielkoscPopulacjiDzieci;
+    unsigned prawdopodobienstwoMutacji; ///<w promilach
     UstawieniaAlgorytmu() = default;
 };
 
