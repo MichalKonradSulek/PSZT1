@@ -7,11 +7,12 @@
 #include "WycieczkaObjazdowa.h"
 #include "ObslugaPlikow.h"
 
-WycieczkaObjazdowa::WycieczkaObjazdowa(): _tablicaOdleglosci(5) {
+WycieczkaObjazdowa::WycieczkaObjazdowa(): _tablicaOdleglosci() {
 
 };
 
 void WycieczkaObjazdowa::wczytajDane(const std::string &plik, int iloscRekordow) {
+    _tablicaOdleglosci = TablicaOdleglosci(iloscRekordow);
     ::wczytajDane(_tablicaOdleglosci, plik, iloscRekordow);
     if(iloscRekordow == 0) {
         std::cerr << "Tablica odleglosci pusta" << std::endl;
@@ -51,7 +52,7 @@ void WycieczkaObjazdowa::przeprowadzObliczenia() {
 //    Populacja populacja(10, 4);
 //    for(int i = 0; i < populacja.wielkosc(); ++i) {
 //        std::cout << "Osobnik " << i << ": " << ocenOsobnika(_tablicaOdleglosci, populacja.osobnik(i).zwrocFenotyp()) << std::endl;;
-//        wypiszWektorU(populacja.osobnik(i).zwrocFenotyp());
+//        wypiszWektorU(populacja.osobnik(i).zwrocGenotyp());
 //    }
 //    Osobnik osobnik0(Genotyp{0,0,0,0,0,0,0,0,0});
 //    Osobnik osobnik1(Genotyp{1,12,13,14,15,16,17,18,19});

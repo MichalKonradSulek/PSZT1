@@ -9,12 +9,10 @@
 #include "ObslugaPlikow.h"
 
 
-Osobnik::Osobnik(size_t iloscChromosomow) {
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count(); //inicjator generatora liczb losowych
-    std::default_random_engine generator(seed); //tworzenie generatora liczb losowych
+Osobnik::Osobnik(size_t iloscChromosomow, std::default_random_engine& generator) {
     for(int i = 0; i < iloscChromosomow; ++i) {
-        std::uniform_int_distribution<Chromosom> distribution(0, i + 1); //określanie zakresu generowanych liczb losowych
-        _genotyp.push_back(distribution(generator));
+        std::uniform_int_distribution<Chromosom> dopuszczalneWartosciDanegoChromosomu(0, i + 1); //określanie zakresu generowanych liczb losowych
+        _genotyp.push_back(dopuszczalneWartosciDanegoChromosomu(generator));
     }
 }
 
@@ -59,8 +57,10 @@ WynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const
 }
 
 Populacja::Populacja(size_t size, size_t iloscChromosomow): _populacja() {
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count(); //inicjator generatora liczb losowych (zegar)
+    std::default_random_engine generator(seed); //tworzenie generatora liczb losowych
     for(int i = 0; i < size; ++i){
-        _populacja.emplace_back(std::pair<WynikFunkcjiOceny, Osobnik>(0, Osobnik(iloscChromosomow))); //generowanie losowych osobników
+        _populacja.emplace_back(std::pair<WynikFunkcjiOceny, Osobnik>(0, Osobnik(iloscChromosomow, generator))); //generowanie losowych osobników
     }
 }
 

@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <utility>
+#include <random>
 #include "TypyDanych.h"
 #include "ObslugaPlikow.h"
 
@@ -17,7 +18,7 @@
  */
 class Osobnik {
 public:
-    explicit Osobnik(size_t iloscChromosomow); ///<Tworzy losowego osobnika o zadanej liczbie chromosomów
+    explicit Osobnik(size_t iloscChromosomow, std::default_random_engine& generator); ///<Tworzy losowego osobnika o zadanej liczbie chromosomów
     explicit Osobnik(Genotyp genotyp); ///<Tworzy osobnika o zadanym genotypie
     Genotyp zwrocGenotyp() const;
     Genotyp& genotyp();

@@ -3,7 +3,7 @@
 
 int main() {
     WycieczkaObjazdowa wycieczkaObjazdowa;
-    wycieczkaObjazdowa.wczytajDane("miasta.txt", 5);
+    wycieczkaObjazdowa.wczytajDane("miastaPelne.txt", 37);
     wycieczkaObjazdowa.przeprowadzObliczenia();
     return 0;
 }
