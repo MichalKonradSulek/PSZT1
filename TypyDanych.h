@@ -25,6 +25,8 @@ using NumerMiasta = unsigned;
 struct UstawieniaAlgoytmu {
     size_t iloscChromosomow;
     size_t wielkoscPopulacji;
+    bool sortujPrzedKrzyzowaniem;
+    UstawieniaAlgoytmu() = default;
 };
 
 #endif //PSZT1_TYPYDANYCH_H

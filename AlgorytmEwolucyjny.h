@@ -6,6 +6,7 @@
 #define PSZT1_ALGORYTMEWOLUCYJNY_H
 
 #include <iostream>
+#include <random>
 #include "TypyDanych.h"
 #include "ObslugaPlikow.h"
 #include "Populacja.h"
@@ -24,6 +25,7 @@ public:
     void iteracja(); ///<Pojedyncza iteracja (wymiana jednego pokolenia)
     void zwrocNajlepszegoOsobnika(Fenotyp) const;
 private:
+    std::default_random_engine _generator; ///<Generator liczb losowych
     UstawieniaAlgoytmu _ustawieniaAlgorytmu;
     TablicaOdleglosci _tablicaOdleglosci;
     Populacja _bierzacaPopulacja;
@@ -35,11 +37,16 @@ private:
  */
 class Reproduktor {
 public:
-    void reprodukuj(Populacja& populacja, const UstawieniaAlgoytmu& ustawieniaAlgoytmu);
-private:
+    Reproduktor(const UstawieniaAlgoytmu& ustawieniaAlgoytmu, std::default_random_engine& generator);
+    void reprodukuj(Populacja& populacja);
+//private:
+    std::default_random_engine& _generator;
+    UstawieniaAlgoytmu _ustawieniaAlgorytmu;
     Populacja _nowaPopulacja;
     void wybierzOsobnikiDoReprodukcji(Populacja& populacja);
-
+    void krzyzujParami(); ///<jeśli nieparzysta liczba osobników, ostatni nie podlega krzyzowaniu
+    void krzyzuj(Osobnik& osobnik1, Osobnik& osobnik2);
+    void scalPotomkowZRodzicami();
 };
 
 /** \class Mutator

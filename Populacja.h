@@ -20,6 +20,7 @@ public:
     explicit Osobnik(size_t iloscChromosomow); ///<Tworzy losowego osobnika o zadanej liczbie chromosomów
     explicit Osobnik(Genotyp genotyp); ///<Tworzy osobnika o zadanym genotypie
     Genotyp zwrocGenotyp() const;
+    Genotyp& genotyp();
     Fenotyp zwrocFenotyp() const;
 private:
     Genotyp _genotyp;
@@ -38,6 +39,7 @@ public:
     explicit Populacja() = default;
     Populacja(size_t size, size_t iloscChromosomow);
     Osobnik osobnik(size_t number) const;
+    Osobnik& osobnik(size_t number);
     size_t wielkosc() const;
     void ocenOsobnika(size_t numer, wynikFunkcjiOceny ocena);
     void sortuj(); ///< funkcja sortująca populację rosnąco względem wyniku funkcji oceny

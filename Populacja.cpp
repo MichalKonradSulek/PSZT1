@@ -24,6 +24,10 @@ Genotyp Osobnik::zwrocGenotyp() const {
     return _genotyp;
 }
 
+Genotyp &Osobnik::genotyp() {
+    return _genotyp;
+}
+
 Fenotyp Osobnik::zwrocFenotyp() const {
     Fenotyp fenotyp;
     stworzFenotyp(fenotyp);
@@ -54,9 +58,18 @@ wynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const
     return wynik;
 }
 
-Populacja::Populacja(size_t size, size_t iloscChromosomow): _populacja(size, std::pair<wynikFunkcjiOceny, Osobnik>(0, Osobnik(iloscChromosomow))) {}
+Populacja::Populacja(size_t size, size_t iloscChromosomow): _populacja() {
+    for(int i = 0; i < size; ++i){
+        _populacja.emplace_back(std::pair<wynikFunkcjiOceny, Osobnik>(0, Osobnik(iloscChromosomow))); //generowanie losowych osobników
+    }
+}
 
 Osobnik Populacja::osobnik(size_t number) const {
+    if(number >= _populacja.size()) throw "Populacja::getSpecimen - wrong number";
+    return _populacja[number].second;
+}
+
+Osobnik& Populacja::osobnik(size_t number) {
     if(number >= _populacja.size()) throw "Populacja::getSpecimen - wrong number";
     return _populacja[number].second;
 }
