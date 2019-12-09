@@ -1,6 +1,6 @@
-//
-// Created by michalsulek on 03.12.2019.
-//
+//Autorzy:
+//Aleksandra Brela
+//Michał Sułek
 
 #include <random>
 #include <chrono>
@@ -56,10 +56,10 @@ WynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const
     return wynik;
 }
 
-Populacja::Populacja(size_t size, size_t iloscChromosomow): _populacja() {
+Populacja::Populacja(size_t rozmiar, size_t iloscChromosomow) {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count(); //inicjator generatora liczb losowych (zegar)
     std::default_random_engine generator(seed); //tworzenie generatora liczb losowych
-    for(int i = 0; i < size; ++i){
+    for(int i = 0; i < rozmiar; ++i){
         _populacja.emplace_back(std::pair<WynikFunkcjiOceny, Osobnik>(0, Osobnik(iloscChromosomow, generator))); //generowanie losowych osobników
     }
 }

@@ -1,6 +1,6 @@
-//
-// Created by michalsulek on 07.12.2019.
-//
+//Autorzy:
+//Aleksandra Brela
+//Michał Sułek
 
 #ifndef PSZT1_OBSLUGAPLIKOW_H
 #define PSZT1_OBSLUGAPLIKOW_H
@@ -21,7 +21,6 @@ struct TablicaOdleglosci {
     explicit TablicaOdleglosci(size_t wielkosc = 0);
     std::vector<std::vector<WynikFunkcjiOceny>> odleglosci;
     std::vector<std::string> nazwyMiast;
-    void dodajMiasto(const std::string& nazwaMiasta);
     size_t wielkosc() const;
 };
 

@@ -1,4 +1,7 @@
-#include <iostream>
+//Autorzy:
+//Aleksandra Brela
+//Michał Sułek
+
 #include "WycieczkaObjazdowa.h"
 
 int main() {

@@ -1,6 +1,6 @@
-//
-// Created by michalsulek on 07.12.2019.
-//
+//Autorzy:
+//Aleksandra Brela
+//Michał Sułek
 
 #include <fstream>
 #include "ObslugaPlikow.h"
@@ -9,14 +9,6 @@ TablicaOdleglosci::TablicaOdleglosci(size_t wielkosc):
     odleglosci(wielkosc, std::vector<WynikFunkcjiOceny>(wielkosc)),
     nazwyMiast(wielkosc) {
 
-}
-
-void TablicaOdleglosci::dodajMiasto(const std::string &nazwaMiasta) {
-    odleglosci.emplace_back(std::vector<WynikFunkcjiOceny>(odleglosci.size()));
-    for(auto& wiersz: odleglosci) {
-        wiersz.emplace_back(WynikFunkcjiOceny());
-    }
-    nazwyMiast.push_back(nazwaMiasta);
 }
 
 size_t TablicaOdleglosci::wielkosc() const {
@@ -35,4 +27,5 @@ void wczytajDane(TablicaOdleglosci& tablicaOdleglosci, const std::string &plik, 
             daneWejsciowe >> tablicaOdleglosci.odleglosci.at(i).at(j);
         }
     }
+    daneWejsciowe.close();
 }

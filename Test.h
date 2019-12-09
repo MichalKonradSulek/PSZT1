@@ -1,6 +1,6 @@
-//
-// Created by michalsulek on 07.12.2019.
-//
+//Autorzy:
+//Aleksandra Brela
+//Michał Sułek
 
 #ifndef PSZT1_TEST_H
 #define PSZT1_TEST_H

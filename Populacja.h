@@ -1,6 +1,6 @@
-//
-// Created by michalsulek on 03.12.2019.
-//
+//Autorzy:
+//Aleksandra Brela
+//Michał Sułek
 
 #ifndef PSZT1_POPULACJA_H
 #define PSZT1_POPULACJA_H
@@ -37,13 +37,13 @@ WynikFunkcjiOceny ocenOsobnika(const TablicaOdleglosci& tablicaOdleglosci, const
  */
 class Populacja {
 public:
-    explicit Populacja() = default; ///<generacja pustej populacji
-    Populacja(size_t size, size_t iloscChromosomow); ///<generacja populacji losowych osobników
+    Populacja() = default; ///<generacja pustej populacji
+    Populacja(size_t rozmiar, size_t iloscChromosomow); ///<generacja populacji losowych osobników
     Osobnik osobnik(size_t numer) const;
     Osobnik& osobnik(size_t numer);
     WynikFunkcjiOceny ocenaOsobnika(size_t numer) const;
     size_t wielkosc() const;
-    void ocenOsobnika(size_t numer, WynikFunkcjiOceny ocena);
+    void ocenOsobnika(size_t numer, WynikFunkcjiOceny ocena); ///<przypisuje ocenę osobnikowi
     void sortuj(); ///< funkcja sortująca populację rosnąco względem wyniku funkcji oceny
     void dodajOsobnika(const Osobnik& osobnik, WynikFunkcjiOceny ocena = 0); ///<dodaje osobnika na końcu populacji
     void doklejInnaPopulacje(const Populacja& innaPopulacja); ///<dokleja inną populację na końcu obecnej

@@ -1,6 +1,6 @@
-//
-// Created by michalsulek on 07.12.2019.
-//
+//Autorzy:
+//Aleksandra Brela
+//Michał Sułek
 
 #ifndef PSZT1_WYCIECZKAOBJAZDOWA_H
 #define PSZT1_WYCIECZKAOBJAZDOWA_H
@@ -11,7 +11,8 @@
 #include "Test.h"
 
 /** \file WycieczkaObjazdowa.h
- * Klasa przeprowadzająca obliczenia, wczytująca dane z pliku i zapisująca wyniki.
+ * Klasa wywołująca algorytm ewolucyjny, umożliwiająca automatyzaję obliczeń.
+ * Wczytuje dane z pliku i prezentuje wyniki.
  * To właśnie ta klasa przeprowadza testy algorytmu.
  */
 

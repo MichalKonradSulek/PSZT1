@@ -1,6 +1,6 @@
-//
-// Created by michalsulek on 07.12.2019.
-//
+//Autorzy:
+//Aleksandra Brela
+//Michał Sułek
 
 #ifndef PSZT1_ALGORYTMEWOLUCYJNY_H
 #define PSZT1_ALGORYTMEWOLUCYJNY_H
@@ -59,7 +59,7 @@ private:
  */
 class Mutator {
 public:
-    Mutator(const UstawieniaAlgorytmu& ustawieniaAlgoytmu, std::default_random_engine& generator);
+    Mutator(const UstawieniaAlgorytmu& ustawieniaAlgorytmu, std::default_random_engine& generator);
     void mutuj(Populacja& populacja); ///<przeprowadza mutację wszystkich osobników, każdy przechodzi mutację z określonym prawdopodobieństwem
 private:
     std::default_random_engine& _generator;

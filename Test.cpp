@@ -1,6 +1,7 @@
-//
-// Created by michalsulek on 07.12.2019.
-//
+//Autorzy:
+//Aleksandra Brela
+//Michał Sułek
+
 #include "Test.h"
 
 void wypiszTablice(const TablicaOdleglosci& tablicaOdleglosci) {

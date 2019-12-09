@@ -1,6 +1,6 @@
-//
-// Created by michalsulek on 07.12.2019.
-//
+//Autorzy:
+//Aleksandra Brela
+//Michał Sułek
 
 #include <chrono>
 #include <random>
@@ -24,7 +24,7 @@ void AlgorytmEwolucyjny::iteracja() {
     reproduktor.reprodukuj(_bierzacaPopulacja);
     Populacja potomkowie = reproduktor.zwrocPotomkow();
     Mutator mutator(_ustawieniaAlgorytmu, _generator);
-    mutator.mutuj(_bierzacaPopulacja);
+    mutator.mutuj(potomkowie);
     for(int i = 0; i < potomkowie.wielkosc(); ++i) { //ocena wszystkich osobników nowej populacji
         potomkowie.ocenOsobnika(i, ocenOsobnika(_tablicaOdleglosci, potomkowie.osobnik(i).zwrocFenotyp()));
     }
@@ -98,9 +98,9 @@ void Reproduktor::krzyzuj(Osobnik& osobnik1, Osobnik& osobnik2) {
     std::swap_ranges(genotypOsobnika1.begin() + miejsceCiecia, genotypOsobnika1.end(), genotypOsobnika2.begin() + miejsceCiecia);
 }
 
-Mutator::Mutator(const UstawieniaAlgorytmu &ustawieniaAlgoytmu, std::default_random_engine &generator):
+Mutator::Mutator(const UstawieniaAlgorytmu &ustawieniaAlgorytmu, std::default_random_engine &generator):
     _generator(generator),
-    _ustawieniaAlgorytmu(ustawieniaAlgoytmu)
+    _ustawieniaAlgorytmu(ustawieniaAlgorytmu)
     {}
 
 void Mutator::mutuj(Populacja &populacja) {
