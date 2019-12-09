@@ -1,0 +1,6 @@
+W projekcie wykorzystano automatyzaję kompilacji z wykorzystaniem narzędzia Cmake.
+W celu zbudowania programu należy wywołać:
+cmake .
+make all
+Program wyjściowy ma nazwę PSZT1.
+Należy zadbać o to, by plik miastaPelne.txt znajdował się w tym samym katalogu, co plik wykonywalny.
